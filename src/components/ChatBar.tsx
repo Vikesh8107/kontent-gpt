@@ -3,7 +3,7 @@ import axios from "axios";
 import WelcomeBanner from "./WelcomeBanner";
 import ChatInterface from "./ChatInterface";
 import PlusIcon from "@heroicons/react/outline/PlusIcon";
-import "./ChatBar.css";
+import { MdPerson } from "react-icons/md";
 
 interface ChatBarProps {
   email: string | null;
@@ -18,7 +18,24 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
   const [requestValue, setRequestValue] = useState<number | null>(null);
   const [isChatStarted, setIsChatStarted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false); // For loading state
+  const [chatHistory, setChatHistory] = useState<
+    Array<{ role: string; text: string }>
+  >([]);
   const token = localStorage.getItem("jwtToken");
+
+  useEffect(() => {
+    // Load chat history from localStorage on component mount
+    const savedChatHistory = localStorage.getItem("chatHistory");
+    if (savedChatHistory) {
+      setChatHistory(JSON.parse(savedChatHistory));
+      setIsChatStarted(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save chat history to localStorage whenever it changes
+    localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+  }, [chatHistory]);
 
   const handleRadioClick = async (value: number) => {
     setSelectedRadio(value);
@@ -30,8 +47,15 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
   };
 
   const handleSubmit = async () => {
-    if (requestValue == null) return;
+    if (requestValue == null || recordedText.trim() === "") return;
 
+    // Add user's question to chat history
+    const updatedChatHistory = [
+      ...chatHistory,
+      { role: "user", text: recordedText },
+    ];
+    setChatHistory(updatedChatHistory);
+    setRecordedText(""); // Clear the input text immediately
     setIsChatStarted(true);
     setLoading(true); // Start loading
 
@@ -58,7 +82,11 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
       outputString = outputString.replace(/\*\*/g, "").replace(/\\n/g, "\n");
 
       setRecordedResultText(outputString);
-      setRecordedText(""); // Clear the input text
+      setChatHistory((prevHistory) => [
+        ...prevHistory,
+        { role: "bot", text: outputString },
+      ]);
+
       setSelectedRadio(null);
       setLoading(false); // Stop loading
     } catch (error) {
@@ -68,19 +96,11 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
   };
 
   const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault(); // Prevent default behavior of form submission
       handleSubmit();
     }
   };
-
-  useEffect(() => {
-    if (isRecording) {
-      const stream = new MediaStream(); // Declare and initialize the stream variable
-      const mediaRecorder = new MediaRecorder(stream); // Pass the MediaStream object as an argument
-      // Logic for recording
-    }
-  }, [isRecording]);
 
   return (
     <>
@@ -89,8 +109,7 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
         {isChatStarted && (
           <ChatInterface
             email={email}
-            question={recordedText}
-            answer={recordedResultText}
+            chatHistory={chatHistory}
             loading={loading}
           />
         )}
@@ -98,11 +117,8 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
           <textarea
             placeholder="Type your script data and select LONG or SHORT form..."
             value={recordedText}
-            onChange={(e) => {
-              setRecordedText(e.target.value);
-              setLoading(true); // Start loading on input change
-            }}
-            className="h-16 w-96 py-2 px-4 bg-gray-200 text-black border-none rounded-2xl pr-20 resize-none overflow-y-auto"
+            onChange={(e) => setRecordedText(e.target.value)}
+            className="h-16 w-96 py-2 px-4 bg-gray-200 text-black border-none rounded-2xl pr-20 resize-none overflow-y-auto placeholder-center"
             style={{
               width: "calc(100vw - 180px)",
               maxWidth: "800px",
