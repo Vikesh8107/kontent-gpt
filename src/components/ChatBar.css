@@ -1,0 +1,8 @@
+/* Add this to your global CSS file */
+.placeholder-center::placeholder {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
