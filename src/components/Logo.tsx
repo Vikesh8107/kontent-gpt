@@ -7,6 +7,7 @@ interface LogoProps {
   toggleMenu: () => void;
 }
 
+// eslint-disable-next-line
 const Logo: React.FC<LogoProps> = ({ isMenuExpanded, toggleMenu }) => {
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
 
