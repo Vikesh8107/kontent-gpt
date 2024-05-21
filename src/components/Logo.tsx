@@ -7,6 +7,7 @@ interface LogoProps {
   toggleMenu: () => void;
 }
 
+// eslint-disable-next-line
 const Logo: React.FC<LogoProps> = ({ isMenuExpanded, toggleMenu }) => {
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
 
@@ -38,7 +39,7 @@ const Logo: React.FC<LogoProps> = ({ isMenuExpanded, toggleMenu }) => {
           <img
             src={brandLogo}
             alt="KontentGpt Logo"
-            style={{ width: "100px", height: "auto" }}
+            style={{ width: "168px", height: "auto" }}
           />
         </a>
       </div>

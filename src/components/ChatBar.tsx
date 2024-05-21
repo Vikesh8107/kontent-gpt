@@ -2,8 +2,7 @@ import React, { useState, useEffect, KeyboardEvent } from "react";
 import axios from "axios";
 import WelcomeBanner from "./WelcomeBanner";
 import ChatInterface from "./ChatInterface";
-import PlusIcon from "@heroicons/react/outline/PlusIcon";
-import { MdPerson } from "react-icons/md";
+import RightIcon from "../assets/rightIcon.png";
 
 interface ChatBarProps {
   email: string | null;
@@ -37,7 +36,7 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
     localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
   }, [chatHistory]);
 
-  const handleRadioClick = async (value: number) => {
+  const handleRadioClick = (value: number) => {
     setSelectedRadio(value);
     setRequestValue(value);
   };
@@ -81,14 +80,16 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
 
       outputString = outputString.replace(/\*\*/g, "").replace(/\\n/g, "\n");
 
-      setRecordedResultText(outputString);
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        { role: "bot", text: outputString },
-      ]);
+      setTimeout(() => {
+        setRecordedResultText(outputString);
+        setChatHistory((prevHistory) => [
+          ...prevHistory,
+          { role: "bot", text: outputString },
+        ]);
 
-      setSelectedRadio(null);
-      setLoading(false); // Stop loading
+        setSelectedRadio(null);
+        setLoading(false); // Stop loading
+      }, 2000); // Simulate delay for animation
     } catch (error) {
       console.error("Error submitting data:", error);
       setLoading(false); // Stop loading on error
@@ -115,10 +116,10 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
         )}
         <div className="relative">
           <textarea
-            placeholder="Type your script data and select LONG or SHORT form..."
+            placeholder="Type your script data here..."
             value={recordedText}
             onChange={(e) => setRecordedText(e.target.value)}
-            className="h-16 w-96 py-2 px-4 bg-gray-200 text-black border-none rounded-2xl pr-20 resize-none overflow-y-auto placeholder-center"
+            className="h-16 w-96 py-2 px-4 bg-gray-200 ml-20 mr-10 text-black border-none rounded-2xl pr-20 resize-none overflow-y-auto placeholder-center"
             style={{
               width: "calc(100vw - 180px)",
               maxWidth: "800px",
@@ -129,13 +130,7 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
             }}
             onKeyDown={handleKeyPress}
           />
-          <button
-            className="absolute top-2 right-4 bg-gray-200 text-black rounded-full p-3 hover:bg-gray-300"
-            onClick={handleNewChat}
-            title="New Chat"
-          >
-            <PlusIcon className="h-6 w-6" />
-          </button>
+
           <button
             className="absolute top-2 right-16 bg-gray-200 text-black rounded-full p-3 hover:bg-gray-300"
             onClick={handleSubmit}
@@ -152,7 +147,15 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
           </button>
         </div>
 
-        <div className="flex flex-row gap-5">
+        <div className="flex flex-row gap-1.5 mr-20">
+          <div className="gap-3 mt-1 justify-start">
+            <span>Select Short or Long Form</span>
+          </div>
+          <img
+            src={RightIcon}
+            alt="Right Icon"
+            className="w-8 h-7 mt-1.5 transform rotate-45"
+          />
           <div className="flex items-center">
             <button
               id="default-radio-1"

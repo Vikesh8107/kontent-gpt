@@ -1,4 +1,5 @@
-import React from "react";
+// eslint-disable-next-line
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -12,6 +13,8 @@ import HowToUse from "./components/howtouse";
 import ContactUs from "./components/ContactUs";
 import AboutUs from "./components/AboutUS";
 import SingUp from "./components/SingUp";
+// eslint-disable-next-line
+import { set } from "firebase/database";
 
 const App: React.FC = () => {
   const [isMenuExpanded, setIsMenuExpanded] = React.useState<boolean>(false);
