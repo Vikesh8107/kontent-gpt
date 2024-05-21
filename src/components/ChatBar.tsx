@@ -2,8 +2,7 @@ import React, { useState, useEffect, KeyboardEvent } from "react";
 import axios from "axios";
 import WelcomeBanner from "./WelcomeBanner";
 import ChatInterface from "./ChatInterface";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import RightIcon from "../assets/rightIcon.png";
 
 interface ChatBarProps {
   email: string | null;
@@ -148,15 +147,15 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
           </button>
         </div>
 
-        <div className="flex flex-row gap-5">
-          <div className="mt-0.9 ml-3 flex items-center">
+        <div className="flex flex-row gap-1.5 mr-20">
+          <div className="gap-3 mt-1 justify-start">
             <span>Select Short or Long Form</span>
-            <FontAwesomeIcon
-              icon={faArrowRight}
-              className="ml-2 sm:ml-10 lg:ml-4"
-              fade
-            />
           </div>
+          <img
+            src={RightIcon}
+            alt="Right Icon"
+            className="w-8 h-7 mt-1.5 transform rotate-45"
+          />
           <div className="flex items-center">
             <button
               id="default-radio-1"
