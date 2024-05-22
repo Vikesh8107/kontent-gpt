@@ -1,4 +1,4 @@
-import React, { useState, useEffect, KeyboardEvent } from "react";
+import React, { useState, KeyboardEvent } from "react";
 import axios from "axios";
 import WelcomeBanner from "./WelcomeBanner";
 import ChatInterface from "./ChatInterface";
@@ -10,59 +10,35 @@ interface ChatBarProps {
 }
 
 const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
-  const [isRecording, setIsRecording] = useState(false);
   const [recordedText, setRecordedText] = useState("");
   const [recordedResultText, setRecordedResultText] = useState("");
   const [selectedRadio, setSelectedRadio] = useState<number | null>(null);
   const [requestValue, setRequestValue] = useState<number | null>(null);
   const [isChatStarted, setIsChatStarted] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false); // For loading state
-  const [chatHistory, setChatHistory] = useState<
+  const [loading, setLoading] = useState<boolean>(false);
+  const [latestMessages, setLatestMessages] = useState<
     Array<{ role: string; text: string }>
   >([]);
   const token = localStorage.getItem("jwtToken");
-
-  useEffect(() => {
-    // Load chat history from localStorage on component mount
-    const savedChatHistory = localStorage.getItem("chatHistory");
-    if (savedChatHistory) {
-      setChatHistory(JSON.parse(savedChatHistory));
-      setIsChatStarted(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    // Save chat history to localStorage whenever it changes
-    localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-  }, [chatHistory]);
 
   const handleRadioClick = (value: number) => {
     setSelectedRadio(value);
     setRequestValue(value);
   };
 
-  const handleNewChat = () => {
-    window.location.reload();
-  };
-
   const handleSubmit = async () => {
     if (requestValue == null || recordedText.trim() === "") return;
 
-    // Add user's question to chat history
-    const updatedChatHistory = [
-      ...chatHistory,
+    setLatestMessages([
+      ...latestMessages,
       { role: "user", text: recordedText },
-    ];
-    setChatHistory(updatedChatHistory);
+    ]);
     setRecordedText(""); // Clear the input text immediately
     setIsChatStarted(true);
     setLoading(true); // Start loading
 
     try {
-      // Define headers with the token
-      const headers = {
-        token: token,
-      };
+      const headers = { token: token };
 
       const response = await axios.post(
         "https://kontentgpt-production-838d.up.railway.app/submit_with_type",
@@ -82,11 +58,10 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
 
       setTimeout(() => {
         setRecordedResultText(outputString);
-        setChatHistory((prevHistory) => [
-          ...prevHistory,
+        setLatestMessages((prevMessages) => [
+          ...prevMessages,
           { role: "bot", text: outputString },
         ]);
-
         setSelectedRadio(null);
         setLoading(false); // Stop loading
       }, 2000); // Simulate delay for animation
@@ -98,7 +73,7 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
 
   const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // Prevent default behavior of form submission
+      e.preventDefault();
       handleSubmit();
     }
   };
@@ -110,7 +85,10 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
         {isChatStarted && (
           <ChatInterface
             email={email}
-            chatHistory={chatHistory}
+            latestMessages={latestMessages.map((message, index) => ({
+              id: index,
+              ...message,
+            }))}
             loading={loading}
           />
         )}
