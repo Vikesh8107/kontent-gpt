@@ -43,8 +43,7 @@ const App: React.FC = () => {
           isMenuExpanded={isMenuExpanded}
           toggleMenu={function (): void {
             throw new Error("Function not implemented.");
-          }}
-        />
+          } } displayName={null} email={undefined}        />
         <Routes>
           <Route path="/howtouse" element={<HowToUse />} />
           <Route path="/contactus" element={<ContactUs />} />

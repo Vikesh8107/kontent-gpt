@@ -11,6 +11,7 @@ interface ChatBarProps {
 
 const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
   const [recordedText, setRecordedText] = useState("");
+  //eslint-disable-next-line
   const [recordedResultText, setRecordedResultText] = useState("");
   const [selectedRadio, setSelectedRadio] = useState<number | null>(null);
   const [requestValue, setRequestValue] = useState<number | null>(null);
