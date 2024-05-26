@@ -11,7 +11,7 @@ const firebaseConfig = {
   storageBucket: "kontent-gpt-3cb4b.appspot.com",
   messagingSenderId: "1039058408790",
   appId: "1:1039058408790:web:954b1fcbf556205a0fb2f7",
-  measurementId: "G-61Q9CPE6YY",
+  measurementId: "G-61Q 9CPE6YY",
 };
 
 // Initialize Firebase

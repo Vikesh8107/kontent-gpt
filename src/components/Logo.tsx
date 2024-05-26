@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import brandLogo from "../assets/logo/brand_logo1.png";
+import { getAuth, signOut } from "firebase/auth";
 
 interface LogoProps {
   isMenuExpanded: boolean;
   toggleMenu: () => void;
   displayName: string | null;
-  email: any,
+  email: any;
 }
 
 const Logo: React.FC<LogoProps> = ({
@@ -43,15 +44,16 @@ const Logo: React.FC<LogoProps> = ({
 
   const isMobile = window.innerWidth <= 768;
 
-  const handleLogout = () => {
-    localStorage.removeItem("jwtToken");
-    sessionStorage.removeItem("jwtToken");
-    window.location.href = "/signup"; // Redirect to signup page after logout
+  const handleSignOut = async () => {
+    const auth = getAuth();
+    await signOut(auth);
+    window.location.href = "/";
   };
+
 
   return (
     <div>
-      <div
+      <div 
         className="logo"
         style={{
           position: "absolute",
@@ -110,14 +112,12 @@ const Logo: React.FC<LogoProps> = ({
               {displayName && (
                 <div className="text-gray-700 text-lg">{displayName}</div>
               )}
-              {email && (
-                <div className="text-gray-500 text-sm">{email}</div>
-              )}
+              {email && <div className="text-gray-500 text-sm">{email}</div>}
             </div>
             <div className="border-t border-gray-200"></div>
             <div className="py-2">
               <button
-                onClick={handleLogout}
+                onClick={handleSignOut}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
               >
                 Logout

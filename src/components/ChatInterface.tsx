@@ -78,7 +78,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             )}
           </div>
         ))}
-        {loading && <LoadingAnimation />}
+        <div style={{ marginLeft: loading ? "45px" : "0" }}>
+          {loading && <LoadingAnimation />}
+        </div>
         <div ref={chatEndRef} />
       </div>
     </div>

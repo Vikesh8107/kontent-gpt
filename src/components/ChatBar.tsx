@@ -143,14 +143,15 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
               name="default-radio"
               className={`w-128 h-8 text-blue-600 border-gray-300 min-w-24 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 ${
                 selectedRadio === 1
-                  ? "bg-gradient-to-r from-blue-300 via-purple-400 to-red-300"
+                  ? "bg-[#4741a5]"
                   : "bg-gradient-to-r from-white to-gray-100"
               }`}
               onClick={() => handleRadioClick(1)}
             >
               <label
                 id="default-radio-1"
-                className="ms-2 me-2 text-sm font-medium text-black"
+                className="ms-2 me-2 text-sm font-medium "
+                style={{ color: selectedRadio === 1 ? 'white' : 'black' }}
               >
                 Short Form
               </label>
@@ -163,16 +164,18 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
               type="button"
               value=""
               name="default-radio"
-              className={`w-128 h-8 text-blue-600 border-gray-300 min-w-24 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 ${
+              className={`w-128 h-8 text-blue-600 border-gray-300 min-w-24 rounded-full focus:ring--500 dark:focus:ring-blue-600 ${
                 selectedRadio === 2
-                  ? "bg-gradient-to-r from-blue-300 via-purple-400 to-red-300"
+                  ? "bg-[#4741a5]"
                   : "bg-gradient-to-r from-white to-gray-100"
               }`}
               onClick={() => handleRadioClick(2)}
             >
               <label
                 id="default-radio-2"
-                className="ms-2 me-2 text-sm font-medium text-black"
+                className="ms-2 me-2 text-sm font-medium"
+                style={{ color: selectedRadio === 2 ? 'white' : 'black' }}
+
               >
                 Long Form
               </label>
