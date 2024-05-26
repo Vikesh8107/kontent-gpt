@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -12,15 +12,13 @@ import Logo from "./components/Logo";
 import HowToUse from "./components/howtouse";
 import ContactUs from "./components/ContactUs";
 import AboutUs from "./components/AboutUS";
-import SingUp from "./components/SingUp";
-// eslint-disable-next-line
-import { set } from "firebase/database";
+import SignUp from "./components/SignUp";
 
 const App: React.FC = () => {
-  const [isMenuExpanded, setIsMenuExpanded] = React.useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
+  const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Check if the JWT token exists in local storage or session storage
     const jwtToken =
       localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
@@ -41,9 +39,10 @@ const App: React.FC = () => {
         <Menubutton isMenuExpanded={isMenuExpanded} toggleMenu={toggleMenu} />
         <Logo
           isMenuExpanded={isMenuExpanded}
-          toggleMenu={function (): void {
-            throw new Error("Function not implemented.");
-          } } displayName={null} email={undefined}        />
+          toggleMenu={toggleMenu}
+          displayName={null}
+          email={undefined}
+        />
         <Routes>
           <Route path="/howtouse" element={<HowToUse />} />
           <Route path="/contactus" element={<ContactUs />} />
@@ -58,7 +57,7 @@ const App: React.FC = () => {
               )
             }
           />
-          <Route path="/signup" element={<SingUp />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </div>
     </Router>

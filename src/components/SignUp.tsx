@@ -1,22 +1,34 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"; // Import Axios
-import "./SingUp.css";
+import "./SignUp.css";
 import { auth, provider } from "./config";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, onAuthStateChanged } from "firebase/auth";
 import ChatBar from "./ChatBar";
+import { useNavigate } from "react-router-dom";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const isMobile = window.innerWidth < 768;
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem("email");
-    if (storedEmail) {
-      setEmail(storedEmail);
-    }
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userEmail = user.email;
+        const userDisplayName = user.displayName;
+        localStorage.setItem("email", userEmail ?? "");
+        setEmail(userEmail);
+        setDisplayName(userDisplayName);
+      } else {
+        setEmail(null);
+        setDisplayName(null);
+        navigate("/signup");
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate]);
 
   const handleClick = () => {
     signInWithPopup(auth, provider)
@@ -37,6 +49,9 @@ const SignUp: React.FC = () => {
           .then((response) => {
             // Store JWT token in local storage
             localStorage.setItem("jwtToken", response.data);
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${response.data}`;
             // Console log the JWT token
             console.log("JWT Token:", response.data);
           })
