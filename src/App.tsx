@@ -5,14 +5,17 @@ import {
   Route,
   Routes,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import ChatBar from "./components/ChatBar";
 import Menubutton from "./components/Menubutton";
 import Logo from "./components/Logo";
-import HowToUse from "./components/howtouse";
+import HowToUse from "./Pages/howtouse";
 import ContactUs from "./components/ContactUs";
 import AboutUs from "./components/AboutUS";
 import SignUp from "./components/SignUp";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const App: React.FC = () => {
   const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false);

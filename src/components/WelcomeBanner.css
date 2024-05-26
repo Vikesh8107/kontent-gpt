@@ -1,8 +1,10 @@
 .welcome-banner {
-  padding-top: 10rem !important;
-  padding: 20px;
-  font-size: 3.5rem;
-  color: transparent;
+  padding-top: 30rem;
+  /* Maintain the top padding for space */
+  padding: 80px; 
+  /* Preserve existing padding */
+  font-size: 3.5rem; 
+  color: transparent; /* Transparent text color */
   background-image: linear-gradient(
     to bottom right,
     #4f46e5,
@@ -11,25 +13,47 @@
     #ff7e00,
     #ffbd00
   );
-  -webkit-background-clip: text;
+  font-weight: 650 !important; 
+  -webkit-background-clip: text; /* Clip text to background */
   background-clip: text;
 }
 
 .paragraph-below-banner {
-  padding: 20px;
-  font-size: 3.5rem;
-  color: transparent;
-  color: rgba(154, 151, 151, 0.863);
-  -webkit-background-clip: text;
+  padding: 20px; /* Padding for paragraph below banner */
+  font-size: 3.5rem; /* Font size for large screens */
+  color: transparent; /* Transparent text color */
+  color: rgba(154, 151, 151, 0.863); /* Fallback text color */
+  -webkit-background-clip: text; /* Clip text to background */
   background-clip: text;
+}
+
+.opacity-0 {
+  opacity: 0; /* Hidden element opacity */
+}
+
+.opacity-100 {
+  opacity: 1; /* Fully visible element opacity */
+}
+
+.transition-transform {
+  transition: transform 0.3s ease-in-out; /* Transform transition */
+}
+
+.source-sans-3-Content {
+  font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
 }
 
 @media screen and (max-width: 768px) {
   .welcome-banner {
-    font-size: 2.5rem;
+    font-size: 2.5rem; /* Adjusted font size for smaller screens */
+    padding-top: 5rem !important; /* Reduced top padding for smaller screens */
   }
 
   .paragraph-below-banner {
-    font-size: 2.5rem;
+    font-size: 2.5rem; /* Adjusted font size for smaller screens */
+    padding-top: 2rem; /* Adjusted padding for paragraph below banner */
   }
 }

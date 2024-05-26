@@ -13,7 +13,6 @@ interface ChatInterfaceProps {
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   latestMessages,
-  //eslint - disable - next - line
   email,
   loading,
 }) => {
@@ -57,7 +56,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             {message.role === "user" ? (
               <div className="flex items-center gap-2">
                 <MdPerson className="text-2xl" />
-                <p className="bg-gray-200 text-black rounded-lg p-2">
+                <p className="bg-gray-200 text-black rounded-lg p-2 font-source-sans-3 font-regular whitespace-pre-line">
                   {message.text}
                 </p>
               </div>
@@ -65,7 +64,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               <div className="flex items-center gap-2">
                 <img src={k} className="h-10" alt="Logo" />
                 <div className="relative">
-                  <p className="text-black rounded-lg p-2">{message.text}</p>
+                  <p className="text-black rounded-lg p-2 font-source-sans-3 font-light whitespace-pre-line">
+                    {message.text}
+                  </p>
                   <div className="absolute top-full left-2 mt-2">
                     <FontAwesomeIcon
                       icon={copiedMessageId === message.id ? faCheck : faCopy}

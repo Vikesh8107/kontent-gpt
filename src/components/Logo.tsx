@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import brandLogo from "../assets/logo/brand_logo1.png";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, User } from "firebase/auth";
+import { useLocation, useNavigate } from "react-router-dom";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 interface LogoProps {
   isMenuExpanded: boolean;
@@ -17,6 +21,11 @@ const Logo: React.FC<LogoProps> = ({
 }) => {
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [userPhotoURL, setUserPhotoURL] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleUserMenu = () => {
     setUserMenuOpen(!isUserMenuOpen);
@@ -30,6 +39,24 @@ const Logo: React.FC<LogoProps> = ({
       setUserMenuOpen(false);
     }
   };
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = auth.onAuthStateChanged((user: User | null) => {
+      if (user) {
+        // console.log(user);
+        setUserEmail(user.email);
+        setUserName(user.displayName);
+        setUserPhotoURL(user.photoURL);
+      } else {
+        setUserEmail(null);
+        setUserName(null);
+        setUserPhotoURL(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (isUserMenuOpen) {
@@ -50,10 +77,9 @@ const Logo: React.FC<LogoProps> = ({
     window.location.href = "/";
   };
 
-
   return (
     <div>
-      <div 
+      <div
         className="logo"
         style={{
           position: "absolute",
@@ -69,6 +95,25 @@ const Logo: React.FC<LogoProps> = ({
           zIndex: 1000,
         }}
       >
+        <div
+          className="beta-text"
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "-35px",
+            transform: "translateY(-50%)",
+            padding: "3px 6px",
+            borderRadius: "850px",
+            background: "#4741a5",
+            color: "white",
+            fontWeight: "bold",
+            fontSize: "10px",
+            textTransform: "uppercase",
+            zIndex: 1000,
+          }}
+        >
+          Beta
+        </div>
         <a href="./signup">
           <img
             src={brandLogo}
@@ -87,18 +132,10 @@ const Logo: React.FC<LogoProps> = ({
               style={{ position: "fixed", right: "20px", top: "20px" }}
             >
               <span className="sr-only">Open user menu</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="grey"
-                className="w-8 h-8"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <img
+                src={userPhotoURL ? userPhotoURL : undefined}
+                className="w-8 h-8 rounded-full ml-0.2"
+              />
             </button>
           </div>
         </div>
@@ -108,18 +145,29 @@ const Logo: React.FC<LogoProps> = ({
             className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg"
             style={{ top: "70px", right: "20px" }}
           >
-            <div className="py-2 px-4">
-              {displayName && (
-                <div className="text-gray-700 text-lg">{displayName}</div>
-              )}
-              {email && <div className="text-gray-500 text-sm">{email}</div>}
+            <div className="bg-white shadow-lg rounded-lg p-10 px-6 w-full max-w-md mx-auto mt-8">
+              <div className="flex flex-col items-start mt-[-25px]">
+                <div className="text-xl font-semibold text-gray-600 ">
+                  {userName}
+                </div>
+                <div className="text-sm font-thin text-gray-800 mt-1.5">
+                  <span className="inline-block max-w-[50%] max-h-[10%] overflow-ellipsis">
+                    {userEmail}
+                  </span>{" "}
+                </div>
+              </div>
             </div>
+
             <div className="border-t border-gray-200"></div>
-            <div className="py-2">
+            <div className="py-3 ml-5 mr-8">
               <button
                 onClick={handleSignOut}
-                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                className="block w-full text-left px-2 py-1 text-gray-700 hover:bg-blue-300 font-source-sans-3 font-regular text-lg text-white font-medium bg-[#4741a5] rounded-lg"
               >
+                <FontAwesomeIcon
+                  icon={faArrowRightFromBracket}
+                  className="mr-2 ml-5"
+                />
                 Logout
               </button>
             </div>

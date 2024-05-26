@@ -4,5 +4,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
   }
+
+
+.source-sans-3-placeholder {
+  font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
   
