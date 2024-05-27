@@ -2,7 +2,6 @@ import React, { useState, KeyboardEvent } from "react";
 import axios from "axios";
 import WelcomeBanner from "./WelcomeBanner";
 import ChatInterface from "./ChatInterface";
-import RightIcon from "../assets/rightIcon.png";
 
 interface ChatBarProps {
   email: string | null;
@@ -11,7 +10,6 @@ interface ChatBarProps {
 
 const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
   const [recordedText, setRecordedText] = useState("");
-  //eslint-disable-next-line
   const [recordedResultText, setRecordedResultText] = useState("");
   const [selectedRadio, setSelectedRadio] = useState<number | null>(null);
   const [requestValue, setRequestValue] = useState<number | null>(null);
@@ -57,6 +55,24 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
 
       outputString = outputString.replace(/\*\*/g, "").replace(/\\n/g, "\n");
 
+      // Format the output string for better readability
+      outputString = outputString.replace(
+        /Original Script:/g,
+        "\nOriginal Script:"
+      );
+      outputString = outputString.replace(
+        /Detecting Language:/g,
+        "\nDetecting Language:"
+      );
+      outputString = outputString.replace(
+        /Enhanced Version:/g,
+        "\nEnhanced Version:\n"
+      );
+      outputString = outputString.replace(
+        /Enhanced Storytelling:/g,
+        "\nEnhanced Storytelling:\n"
+      );
+
       setTimeout(() => {
         setRecordedResultText(outputString);
         setLatestMessages((prevMessages) => [
@@ -82,7 +98,7 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
   return (
     <>
       {!isChatStarted && <WelcomeBanner displayName={displayName} />}
-      <div className="fixed bottom-7 mt-25 left-0 right-0 top-20 flex justify-end items-center flex-col gap-2">
+      <div className="fixed bottom-5 left-0 right-0 top-20 flex justify-end items-center flex-col gap-2 overflow-hidden">
         {isChatStarted && (
           <ChatInterface
             email={email}
@@ -93,12 +109,12 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
             loading={loading}
           />
         )}
-        <div className="relative">
+        <div className="relative font-source-sans-3 font-light mb-2">
           <textarea
             placeholder="Type your script data here..."
             value={recordedText}
             onChange={(e) => setRecordedText(e.target.value)}
-            className="h-16 w-96 py-2 px-4 bg-gray-200 ml-20 mr-10 text-black border-none rounded-2xl pr-20 resize-none overflow-y-auto placeholder-center"
+            className="h-16 w-96 py-2 px-4 bg-gray-200 ml-20 mr-10 text-black border-none rounded-2xl pr-20 resize-none overflow-y-auto placeholder-center font-source-sans-3 font-regular"
             style={{
               width: "calc(100vw - 180px)",
               maxWidth: "800px",
@@ -126,15 +142,7 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
           </button>
         </div>
 
-        <div className="flex flex-row gap-1.5 mr-20">
-          <div className="gap-3 mt-1 justify-start">
-            <span>Select Short or Long Form</span>
-          </div>
-          <img
-            src={RightIcon}
-            alt="Right Icon"
-            className="w-8 h-7 mt-1.5 transform rotate-45"
-          />
+        <div className="flex flex-row gap-1.5">
           <div className="flex items-center">
             <button
               id="default-radio-1"
@@ -150,8 +158,8 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
             >
               <label
                 id="default-radio-1"
-                className="ms-2 me-2 text-sm font-medium "
-                style={{ color: selectedRadio === 1 ? 'white' : 'black' }}
+                className="ms-2 me-2 text-sm font-source-sans-3 font-light"
+                style={{ color: selectedRadio === 1 ? "white" : "black" }}
               >
                 Short Form
               </label>
@@ -173,9 +181,8 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
             >
               <label
                 id="default-radio-2"
-                className="ms-2 me-2 text-sm font-medium"
-                style={{ color: selectedRadio === 2 ? 'white' : 'black' }}
-
+                className="ms-2 me-2 text-sm font-source-sans-3 font-light"
+                style={{ color: selectedRadio === 2 ? "white" : "black" }}
               >
                 Long Form
               </label>

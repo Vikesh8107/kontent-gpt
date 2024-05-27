@@ -16,14 +16,11 @@ const Menubutton: React.FC<MenubuttonProps> = ({
   toggleMenu,
 }) => {
   const isMobile = window.innerWidth <= 768;
-  const logout = () => {
-    localStorage.clear();
-    window.location.reload();
-  };
+  
   return (
     <div className="fixed top-4 left-4 z-10">
       <button
-        className="text-black bg-gray-100 rounded-full p-2 transition duration-300 ease-in-out hover:bg-gray-200"
+        className="text-black bg-gray-100 rounded-full p-2 transition duration-300 ease-in-out hover:bg-gray-200 mt-1"
         onClick={toggleMenu}
         title="Expand Menu"
       >
@@ -32,7 +29,7 @@ const Menubutton: React.FC<MenubuttonProps> = ({
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 transform transition-transform duration-300"
+            className="h-10 w-10 transform transition-transform duration-300"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -80,16 +77,19 @@ const Menubutton: React.FC<MenubuttonProps> = ({
           </button>
         </div>
 
-        <ul className="pl-4 text-black ">
+        <ul className="pl-4 text-black">
           <Link
             to="/howtouse"
-            className="cursor-pointer py-2 flex items-center"
+            className="cursor-pointer py-2 flex items-center font-source-sans-3 font-semibold text-xl"
           >
             <li className="flex flex-row">
-              <BookOpenIcon className="h-6 w-6 mr-2" /> How To Use
+              <BookOpenIcon className="h-6 w-6 mr-2 " /> How To Use
             </li>
           </Link>
-          <Link to="/aboutus" className="cursor-pointer py-2 flex items-center">
+          <Link
+            to="/aboutus"
+            className="cursor-pointer py-2 flex items-center font-source-sans-3 font-semibold text-xl"
+          >
             <li className="cursor-pointer py-2 flex items-center">
               <UsersIcon className="h-6 w-6 mr-2" /> About Us
             </li>
@@ -98,7 +98,7 @@ const Menubutton: React.FC<MenubuttonProps> = ({
             to="/contactus"
             className="cursor-pointer py-2 flex items-center"
           >
-            <li className="cursor-pointer py-2 flex items-center">
+            <li className="cursor-pointer py-2 flex items-center font-source-sans-3 font-semibold text-xl">
               <LightningBoltIcon className="h-6 w-6 mr-2" /> Contact Us
             </li>
           </Link>

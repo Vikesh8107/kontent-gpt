@@ -1,0 +1,19 @@
+
+.image_wrapper {
+  margin: 0px 5px;
+  border-radius: 8px;
+
+}
+
+.images {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  border-radius: 20%;
+  margin-top: 0.1px;
+}
+
+.rounded-image{
+  border-radius: 10px;
+}
