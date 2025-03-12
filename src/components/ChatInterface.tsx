@@ -13,6 +13,7 @@ interface ChatInterfaceProps {
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   latestMessages,
+  /* eslint-disable-next-line padded-blocks */
   email,
   loading,
 }) => {

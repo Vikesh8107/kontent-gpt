@@ -10,6 +10,7 @@ interface ChatBarProps {
 
 const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
   const [recordedText, setRecordedText] = useState("");
+  /* eslint-disable-next-line padded-blocks */
   const [recordedResultText, setRecordedResultText] = useState("");
   const [selectedRadio, setSelectedRadio] = useState<number | null>(null);
   const [requestValue, setRequestValue] = useState<number | null>(null);
@@ -40,7 +41,7 @@ const ChatBar: React.FC<ChatBarProps> = ({ email, displayName }) => {
       const headers = { token: token };
 
       const response = await axios.post(
-        "https://kontentgpt-production-838d.up.railway.app/submit_with_type",
+        "https://kontentgpt-production-f92e.up.railway.app/submit_with_type",
         {
           prompt: recordedText || "",
           type: requestValue === 1 ? "Short Form" : "Long Form",

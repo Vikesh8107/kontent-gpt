@@ -1,11 +1,16 @@
 import React from "react";
 import "./WelcomeBanner.css";
+/* eslint-disable-next-line padded-blocks */
 import Slider from "react-slick";
+/* eslint-disable-next-line padded-blocks */
 import { ReactTyped } from "react-typed";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+/* eslint-disable-next-line padded-blocks */
 import { getAuth, signOut } from "firebase/auth";
+/* eslint-disable-next-line padded-blocks */
 import SlidingAnimation from "./Marquee";
+/* eslint-disable-next-line padded-blocks */
 import HowToUse from "../Pages/howtouse";
 
 interface WelcomeBannerProps {
@@ -35,7 +40,7 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ displayName }) => {
                   backDelay={1500}
                   loop
                 /> */}
-                Assistant
+                Writer
               </span>
             </span>
             </div>
